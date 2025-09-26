@@ -1,4 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import OpenAI from 'openai';
+
+const client = new OpenAI();
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,69 +11,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Word is required' }, { status: 400 });
     }
 
-    const prompt = `Analyze the Japanese word "${word}" and provide detailed information about:
-
-1. **Common Usage Level**: How commonly used is this word? (Very common/Common/Uncommon/Rare)
-
-2. **Register & Formality**:
-   - Is it used in spoken language or mainly written?
-   - Is it formal, casual, or neutral?
-   - Is it literary, academic, or conversational?
-
-3. **Age Demographics**:
-   - Do younger people (20s) use this word regularly?
-   - Is it more common among older generations?
-   - Any generational differences in usage?
-
-4. **Context & Situations**: Where would you typically encounter this word?
-
-5. **Example Sentences**: Provide 2-3 natural example sentences with English translations that show how this word is actually used.
-
-6. **Usage Notes**: Any important nuances, warnings, or cultural context a learner should know.
-
-Please format your response clearly with headers and be specific about the contexts where this word is appropriate vs inappropriate.`;
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
+    const response = await client.responses.create({
+      prompt: {
+        id: 'pmpt_68d7070e64488190a675dfd966ac12da0f59e9ba4d15d152',
+        version: '1',
+        variables: {
+          word: word,
+        },
       },
-      body: JSON.stringify({
-        model: 'gpt-5-mini',
-        messages: [
-          {
-            role: 'system',
-            content:
-              'You are a Japanese language expert who helps learners understand the nuanced usage, formality levels, and cultural context of Japanese words. Focus on practical information that will help learners use words appropriately in real conversations.',
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        max_completion_tokens: 800,
-      }),
     });
 
-    const data = await response.json();
-    console.dir(data.choices[0]?.message);
-
-    if (!response.ok) {
-      console.dir(data.error);
-      throw new Error(data.error.message ?? 'Unknown OpenAI Error');
+    if (response.error) {
+      throw new Error(`OpenAI Error ${response.error.code}: ${response.error.message}`);
     }
 
-    const analysis =
-      data.choices[0]?.message?.content || 'No analysis available';
-
-    return NextResponse.json({ analysis });
+    return NextResponse.json(response);
   } catch (error) {
     console.error('Error in analyze API:', error);
     return NextResponse.json(
       {
-        error:
-          error instanceof Error ? error.message : 'Failed to analyze word',
+        error: error instanceof Error ? error.message : 'Failed to analyze word',
       },
       { status: 500 },
     );

@@ -22,7 +22,8 @@ export default function Home() {
       });
 
       const data = await response.json();
-      setAnalysis(data.analysis);
+      console.dir(data);
+      // setAnalysis(data.analysis);
     } catch (error) {
       console.error('Error:', error);
       setAnalysis('Error analyzing word. Please try again.');
@@ -36,9 +37,7 @@ export default function Home() {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">KotobaPlus</h1>
-          <p className="text-gray-600">
-            Discover the context and nuance behind Japanese words
-          </p>
+          <p className="text-gray-600">Discover the context and nuance behind Japanese words</p>
         </div>
 
         <form onSubmit={handleSubmit} className="mb-8">
@@ -63,13 +62,9 @@ export default function Home() {
 
         {analysis && (
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              Analysis Results
-            </h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Analysis Results</h2>
             <div className="prose max-w-none">
-              <pre className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                {analysis}
-              </pre>
+              <pre className="whitespace-pre-wrap text-gray-700 leading-relaxed">{analysis}</pre>
             </div>
           </div>
         )}
