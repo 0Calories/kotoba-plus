@@ -1,0 +1,164 @@
+{
+  "name": "japanese_word_analysis",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "term": {
+        "type": "string",
+        "description": "The Japanese word or phrase being analyzed"
+      },
+      "readings": {
+        "type": "object",
+        "properties": {
+          "hiragana": {
+            "type": "string",
+            "description": "Hiragana reading of the term"
+          },
+          "romaji": {
+            "type": "string",
+            "description": "Romanized reading of the term"
+          }
+        },
+        "required": ["hiragana", "romaji"],
+        "additionalProperties": false
+      },
+      "overall_usage": {
+        "type": "object",
+        "properties": {
+          "frequency": {
+            "type": "string",
+            "enum": ["very_common", "common", "uncommon", "rare", "archaic"],
+            "description": "Overall frequency of the word"
+          },
+          "spoken_vs_written": {
+            "type": "string",
+            "enum": ["primarily_spoken", "primarily_written", "both_equally", "literary_only"],
+            "description": "Whether the word appears more in speech or writing"
+          },
+          "age_demographics": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["children", "teens", "young_adults", "middle_aged", "elderly", "all_ages"]
+            },
+            "description": "Age groups that commonly use this word"
+          }
+        },
+        "required": ["frequency", "spoken_vs_written", "age_demographics"],
+        "additionalProperties": false
+      },
+      "definitions": {
+        "type": "array",
+        "description": "Different meanings/definitions of the word",
+        "items": {
+          "type": "object",
+          "properties": {
+            "definition_text": {
+              "type": "string",
+              "description": "English translation/definition of this meaning"
+            },
+            "part_of_speech": {
+              "type": "string",
+              "enum": [
+                "noun",
+                "i_adjective",
+                "na_adjective",
+                "verb_godan",
+                "verb_ichidan",
+                "verb_irregular",
+                "suru_verb",
+                "adverb",
+                "particle",
+                "conjunction",
+                "interjection",
+                "counter",
+                "prefix",
+                "suffix"
+              ],
+              "description": "Specific Japanese part of speech for this definition"
+            },
+            "formality_level": {
+              "type": "string",
+              "enum": ["very_formal", "formal", "neutral", "casual", "very_casual", "slang"],
+              "description": "Formality level for this specific meaning"
+            },
+            "usage_contexts": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "daily_conversation",
+                  "business",
+                  "academic",
+                  "literary",
+                  "news_media",
+                  "social_media",
+                  "anime_manga",
+                  "historical",
+                  "religious",
+                  "technical",
+                  "legal",
+                  "medical",
+                  "regional_dialect"
+                ]
+              },
+              "description": "Contexts where this definition is commonly used"
+            },
+            "appropriateness_notes": {
+              "type": "string",
+              "description": "Important notes about when/where this meaning is appropriate or inappropriate to use"
+            },
+            "example_sentences": {
+              "type": "array",
+              "description": "Example sentences with translations",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "japanese": {
+                    "type": "string",
+                    "description": "Japanese example sentence"
+                  },
+                  "english": {
+                    "type": "string",
+                    "description": "English translation of the example"
+                  },
+                  "context_note": {
+                    "type": "string",
+                    "description": "Optional note about the context or nuance of this example"
+                  }
+                },
+                "required": ["japanese", "english"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "definition_text",
+            "part_of_speech",
+            "formality_level",
+            "usage_contexts",
+            "appropriateness_notes",
+            "example_sentences"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "learner_warnings": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Important warnings or common mistakes learners should avoid"
+      }
+    },
+    "required": [
+      "term",
+      "readings",
+      "overall_usage",
+      "definitions",
+      "learner_warnings"
+    ],
+    "additionalProperties": false
+  }
+}
