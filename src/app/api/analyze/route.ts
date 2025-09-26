@@ -1,11 +1,11 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
 	try {
 		const { word } = await request.json();
 
 		if (!word) {
-			return NextResponse.json({ error: "Word is required" }, { status: 400 });
+			return NextResponse.json({ error: 'Word is required' }, { status: 400 });
 		}
 
 		const prompt = `Analyze the Japanese word "${word}" and provide detailed information about:
@@ -30,22 +30,22 @@ export async function POST(request: NextRequest) {
 
 Please format your response clearly with headers and be specific about the contexts where this word is appropriate vs inappropriate.`;
 
-		const response = await fetch("https://api.openai.com/v1/chat/completions", {
-			method: "POST",
+		const response = await fetch('https://api.openai.com/v1/chat/completions', {
+			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-				"Content-Type": "application/json",
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				model: "gpt-4",
+				model: 'gpt-4',
 				messages: [
 					{
-						role: "system",
+						role: 'system',
 						content:
-							"You are a Japanese language expert who helps learners understand the nuanced usage, formality levels, and cultural context of Japanese words. Focus on practical information that will help learners use words appropriately in real conversations.",
+							'You are a Japanese language expert who helps learners understand the nuanced usage, formality levels, and cultural context of Japanese words. Focus on practical information that will help learners use words appropriately in real conversations.',
 					},
 					{
-						role: "user",
+						role: 'user',
 						content: prompt,
 					},
 				],
@@ -60,13 +60,13 @@ Please format your response clearly with headers and be specific about the conte
 
 		const data = await response.json();
 		const analysis =
-			data.choices[0]?.message?.content || "No analysis available";
+			data.choices[0]?.message?.content || 'No analysis available';
 
 		return NextResponse.json({ analysis });
 	} catch (error) {
-		console.error("Error in analyze API:", error);
+		console.error('Error in analyze API:', error);
 		return NextResponse.json(
-			{ error: "Failed to analyze word" },
+			{ error: 'Failed to analyze word' },
 			{ status: 500 },
 		);
 	}

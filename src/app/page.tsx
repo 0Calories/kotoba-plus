@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function Home() {
-	const [word, setWord] = useState("");
-	const [analysis, setAnalysis] = useState("");
+	const [word, setWord] = useState('');
+	const [analysis, setAnalysis] = useState('');
 	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -13,10 +13,10 @@ export default function Home() {
 
 		setLoading(true);
 		try {
-			const response = await fetch("/api/analyze", {
-				method: "POST",
+			const response = await fetch('/api/analyze', {
+				method: 'POST',
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ word: word.trim() }),
 			});
@@ -24,8 +24,8 @@ export default function Home() {
 			const data = await response.json();
 			setAnalysis(data.analysis);
 		} catch (error) {
-			console.error("Error:", error);
-			setAnalysis("Error analyzing word. Please try again.");
+			console.error('Error:', error);
+			setAnalysis('Error analyzing word. Please try again.');
 		} finally {
 			setLoading(false);
 		}
@@ -56,7 +56,7 @@ export default function Home() {
 							disabled={loading || !word.trim()}
 							className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
 						>
-							{loading ? "Analyzing..." : "Analyze"}
+							{loading ? 'Analyzing...' : 'Analyze'}
 						</button>
 					</div>
 				</form>
