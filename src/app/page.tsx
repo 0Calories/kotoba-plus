@@ -23,7 +23,8 @@ export default function Home() {
 
       const data = await response.json();
       console.dir(data);
-      // setAnalysis(data.analysis);
+      // TODO: Now that we have the object, parse the response body and display it in the UI
+      // setAnalysis(data);
     } catch (error) {
       console.error('Error:', error);
       setAnalysis('Error analyzing word. Please try again.');

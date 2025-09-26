@@ -13,8 +13,8 @@ export async function POST(request: NextRequest) {
 
     const response = await client.responses.create({
       prompt: {
-        id: 'pmpt_68d7070e64488190a675dfd966ac12da0f59e9ba4d15d152',
-        version: '2',
+        id: 'pmpt_68d71c3569188196bbb5be5baf302a97085b4ab6afcb5046',
+        version: '1',
         variables: {
           word: word,
         },
@@ -25,7 +25,9 @@ export async function POST(request: NextRequest) {
       throw new Error(`OpenAI Error ${response.error.code}: ${response.error.message}`);
     }
 
-    return NextResponse.json(response);
+    const analysis = JSON.parse(response.output_text);
+
+    return NextResponse.json(analysis);
   } catch (error) {
     console.error('Error in analyze API:', error);
     return NextResponse.json(
