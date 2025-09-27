@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import type { KotobaResponseData } from './types';
 
 export default function Home() {
   const [word, setWord] = useState('');
-  const [analysis, setAnalysis] = useState('');
+  const [analysis, setAnalysis] = useState<KotobaResponseData | undefined>();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,13 +22,10 @@ export default function Home() {
         body: JSON.stringify({ word: word.trim() }),
       });
 
-      const data = await response.json();
-      console.dir(data);
-      // TODO: Now that we have the object, parse the response body and display it in the UI
-      // setAnalysis(data);
+      const data = (await response.json()) as KotobaResponseData;
+      setAnalysis(data);
     } catch (error) {
       console.error('Error:', error);
-      setAnalysis('Error analyzing word. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -65,7 +63,7 @@ export default function Home() {
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Analysis Results</h2>
             <div className="prose max-w-none">
-              <pre className="whitespace-pre-wrap text-gray-700 leading-relaxed">{analysis}</pre>
+              <pre className="whitespace-pre-wrap text-gray-700 leading-relaxed"></pre>
             </div>
           </div>
         )}
