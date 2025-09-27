@@ -104,6 +104,7 @@ export default function Home() {
                 Definitions
               </h3>
               {analysis.definitions.map((def, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: Order will not change
                 <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm font-medium">
@@ -122,6 +123,7 @@ export default function Home() {
                       <div className="flex flex-wrap gap-1">
                         {def.usage_contexts.map((context, i) => (
                           <span
+                            // biome-ignore lint/suspicious/noArrayIndexKey: Order will not change
                             key={i}
                             className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
                           >
@@ -145,7 +147,11 @@ export default function Home() {
                       <p className="text-sm font-medium text-gray-600 mb-2">Examples:</p>
                       <div className="space-y-2">
                         {def.example_sentences.map((example, i) => (
-                          <div key={i} className="bg-gray-50 p-3 rounded">
+                          <div
+                            // biome-ignore lint/suspicious/noArrayIndexKey: Order will not change
+                            key={i}
+                            className="bg-gray-50 p-3 rounded"
+                          >
                             <p className="text-gray-900 mb-1">{example.japanese}</p>
                             <p className="text-gray-600 text-sm italic">{example.english}</p>
                           </div>
@@ -166,7 +172,11 @@ export default function Home() {
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <ul className="space-y-2">
                     {analysis.learner_warnings.map((warning, index) => (
-                      <li key={index} className="flex items-start gap-2">
+                      <li
+                        // biome-ignore lint/suspicious/noArrayIndexKey: Order will not change
+                        key={index}
+                        className="flex items-start gap-2"
+                      >
                         <span className="text-red-500 mt-1">⚠️</span>
                         <span className="text-red-800 text-sm">{warning}</span>
                       </li>
